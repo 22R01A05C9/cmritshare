@@ -113,13 +113,14 @@ section.url_area {
     grid-template-columns: repeat(4, var(--col-size));
     filter: blur(150px);
     overflow: hidden;
+    transition: all 1 ease-in-out;
 
     & .box {
         height: var(--box-size);
         width: var(--box-size);
         background-color: attr(data-clr);
         border-radius: 50%;
-        transition: all 0.5 ease-in-out;
+        transition: all 1 ease-in-out;
     }
 }
 
