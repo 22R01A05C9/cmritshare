@@ -51,6 +51,7 @@ function animations() {
         delay: .8
     });
 }
+animations()
 let deviceWidth = window.innerWidth
 let finalPath = `M ${deviceWidth * .1} 100 Q ${deviceWidth * 0.5} 100 ${deviceWidth * 0.9} 100`
 document.querySelector('svg path').setAttribute('d', finalPath);
@@ -75,11 +76,11 @@ document.querySelectorAll('.use-area i').forEach(ele => {
 let inputs = document.querySelectorAll('.login input');
 inputs.forEach(ele => {
 
-    ele.addEventListener('focus', ()=>{
+    ele.addEventListener('focus', () => {
         let parentElement = ele.parentElement;
         parentElement.classList.add('focus')
     })
-    ele.addEventListener('blur', ()=>{
+    ele.addEventListener('blur', () => {
         let parentElement = ele.parentElement;
         parentElement.classList.remove('focus')
     })
@@ -92,7 +93,9 @@ window.addEventListener('contextmenu', (event) => {
     contextBox.style.display = "block";
     contextBox.style.left = x + "px";
     contextBox.style.top = y + "px";
-    contextBox.querySelectorAll('li').forEach(ele => {addEventListener('click', (e)=>{
-        contextBox.style.display = "none";
-    })});
+    contextBox.querySelectorAll('li').forEach(ele => {
+        addEventListener('click', (e) => {
+            contextBox.style.display = "none";
+        })
+    });
 });
