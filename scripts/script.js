@@ -4,10 +4,10 @@ window.addEventListener('load', function(){
 document.querySelectorAll('.box').forEach(ele => {
     ele.style.background = ele.getAttribute('data-clr');
 });
-const scroll = new LocomotiveScroll({
-    el: document.querySelector('#main'),
-    smooth: true
-});
+// const scroll = new LocomotiveScroll({
+//     el: document.querySelector('#main'),
+//     smooth: true
+// });
 const url_area = document.querySelector('.url_area'),
     box1 = document.querySelector('#box_1'),
     box2 = document.querySelector('#box_2');
@@ -97,16 +97,25 @@ inputs.forEach(ele => {
     })
 });
 let contextBox = document.querySelector('.context_menu');
-// window.addEventListener('contextmenu', (event) => {
-//     event.preventDefault();
-//     let x = event.x,
-//         y = event.y;
-//     contextBox.style.display = "block";
-//     contextBox.style.left = x + "px";
-//     contextBox.style.top = y + "px";
-//     contextBox.querySelectorAll('li').forEach(ele => {
-//         addEventListener('click', (e) => {
-//             contextBox.style.display = "none";
-//         })
-//     });
-// });
+window.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    let x = event.x,
+        y = event.y;
+    contextBox.style.display = "block";
+    contextBox.style.left = x + "px";
+    contextBox.style.top = y + "px";
+    contextBox.querySelectorAll('li').forEach(ele => {
+        addEventListener('click', (e) => {
+            contextBox.style.display = "none";
+        })
+    });
+});
+
+
+let navbar = document.querySelector('.navbar'), 
+toggleThumb = document.querySelector('#toggler');
+toggleThumb.addEventListener('click', function(){
+    navbar.classList.toggle('visible');
+});
+
+document.querySelector('#main').style.overflow = "hidden";

@@ -22,6 +22,8 @@
     background: #fff;
     z-index: 999999;
     box-shadow: 0 0 10px 10px rgba(0, 0, 0, .1);
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .context_menu ul {
@@ -32,13 +34,13 @@
 
 .context_menu li {
     width: 100%;
-    padding: 10px 20px;
-    border-bottom: 2px solid #000000;
+    padding: 15px 20px;
+    border-bottom: 2px solid #614af2;
     cursor: pointer;
 }
 
 .context_menu li:hover {
-    background-color: #000000;
+    background-color: #4834d4;
     color: #fff;
 }
 
@@ -51,7 +53,9 @@
     z-index: 1000;
     position: sticky;
 }
-
+#toggler{
+    display: none;
+}
 .nav-links {
     list-style: none;
     display: flex;
@@ -316,11 +320,12 @@ svg {
 
 footer {
     height: 10vh;
-    background-color: #130f40;
+    background-color: #fff;
     display: flex;
-    color: #fff;
+    color: #000;
     justify-content: space-evenly;
     align-items: center;
+    border-top: 2px solid #4834d4;
 }
 
 footer ul {
@@ -331,16 +336,44 @@ footer ul {
 }
 
 footer .logo {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 footer .nav-link {
-    color: #fff;
+    color: #000;
     text-decoration: none;
     font-size: 1rem;
 }
 
 @media (max-width: 900px) {
+    #toggler {
+        display: block;
+        font-size: 2rem;
+        color: #000;
+        cursor: pointer;
+    }
+    
+    .navbar{
+        position: fixed; 
+    }
+    nav .nav-links{
+        position: fixed;
+        background-color: #fff;
+        width: 100%;
+        transition: all 0.3s ease;
+        left: -100%;
+        height: calc(100vh - 80px);
+        top: 80px;
+        display: inline-block;
+        text-align: center;
+        padding: 20px;
+        & li{
+            padding: 15px;
+        }
+    }
+    nav.visible .nav-links{
+        left: 0;
+    }
     .features .use-area {
         display: flex;
         flex-direction: column;
@@ -430,6 +463,13 @@ footer .nav-link {
             font-size: 1rem;
         }
     }
-
-
+    footer{
+        margin-top: 12px;
+    }
+    footer .logo{
+        font-size: 1rem;
+    }
+    footer .nav-link{
+        font-size: 10px;
+    }
 }
