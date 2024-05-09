@@ -246,6 +246,45 @@ svg {
     line-height: var(--size);
 }
 
+/* infinite text starts */
+
+.infinite_text{
+    background-color: #AAFCB8;
+    color: #462521;
+    padding: 0 2rem;
+    height: 70px;
+    line-height: 70px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    & *{
+        display: inline-block;
+    }
+    .dot{
+        padding: 5px;
+        background-color: #fff;
+        border-radius: 50%;
+        margin-inline: 20px 5px;
+    }
+    div {
+        animation: infinite_text 30s infinite linear;
+    }
+    
+}
+.infinite_text:hover div{
+    animation-play-state: paused;
+}
+
+@keyframes infinite_text {
+    from{
+        transform: translateX(0);
+    }
+    to{
+        transform: translateX(-100%);
+    }
+}
+/* infinite text ends  */
+
+/* login area starts  */
 .login {
     height: 50vh;
     width: calc(100vw - 50vh);
