@@ -1,3 +1,6 @@
+window.addEventListener('load', function(){
+    document.querySelector('#preLoader').style.display = "none";
+})
 document.querySelectorAll('.box').forEach(ele => {
     ele.style.background = ele.getAttribute('data-clr');
 });
@@ -52,10 +55,19 @@ function animations() {
     });
 }
 animations()
-let deviceWidth = window.innerWidth
-let finalPath = `M ${deviceWidth * .1} 100 Q ${deviceWidth * 0.5} 100 ${deviceWidth * 0.9} 100`
-document.querySelector('svg path').setAttribute('d', finalPath);
+let deviceWidth = window.innerWidth;
+let finalPath = `M ${deviceWidth * .1} 100 Q ${deviceWidth * 0.5} 100 ${deviceWidth * 0.9} 100`;
+function setSvgPath(){   
+    let deviceWidth = window.innerWidth;
+    let finalPath = `M ${deviceWidth * .1} 100 Q ${deviceWidth * 0.5} 100 ${deviceWidth * 0.9} 100`
+    document.querySelector('svg path').setAttribute('d', finalPath);
+}
+setSvgPath()
+window.addEventListener('resize', function(){
+    setSvgPath()
+})
 document.querySelector('.svg-area').addEventListener('mousemove', (e) => {
+    let deviceWidth = window.innerWidth;
     let path = `M ${deviceWidth * .1} 100 Q ${deviceWidth * 0.5} ${e.offsetY} ${deviceWidth * 0.9} 100`
     gsap.to("svg path", {
         duration: 0.3,
@@ -75,7 +87,6 @@ document.querySelectorAll('.use-area i').forEach(ele => {
 });
 let inputs = document.querySelectorAll('.login input');
 inputs.forEach(ele => {
-
     ele.addEventListener('focus', () => {
         let parentElement = ele.parentElement;
         parentElement.classList.add('focus')
@@ -86,16 +97,16 @@ inputs.forEach(ele => {
     })
 });
 let contextBox = document.querySelector('.context_menu');
-window.addEventListener('contextmenu', (event) => {
-    event.preventDefault();
-    let x = event.x,
-        y = event.y;
-    contextBox.style.display = "block";
-    contextBox.style.left = x + "px";
-    contextBox.style.top = y + "px";
-    contextBox.querySelectorAll('li').forEach(ele => {
-        addEventListener('click', (e) => {
-            contextBox.style.display = "none";
-        })
-    });
-});
+// window.addEventListener('contextmenu', (event) => {
+//     event.preventDefault();
+//     let x = event.x,
+//         y = event.y;
+//     contextBox.style.display = "block";
+//     contextBox.style.left = x + "px";
+//     contextBox.style.top = y + "px";
+//     contextBox.querySelectorAll('li').forEach(ele => {
+//         addEventListener('click', (e) => {
+//             contextBox.style.display = "none";
+//         })
+//     });
+// });
