@@ -4,10 +4,6 @@ window.addEventListener('load', function () {
 document.querySelectorAll('.box').forEach(ele => {
     ele.style.background = ele.getAttribute('data-clr');
 });
-// const scroll = new LocomotiveScroll({
-//     el: document.querySelector('#main'),
-//     smooth: true
-// });
 const url_area = document.querySelector('.url_area'),
     box1 = document.querySelector('#box_1'),
     box2 = document.querySelector('#box_2');
