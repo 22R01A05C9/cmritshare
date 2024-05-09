@@ -1,4 +1,4 @@
-window.addEventListener('load', function(){
+window.addEventListener('load', function () {
     document.querySelector('#preLoader').style.display = "none";
 })
 document.querySelectorAll('.box').forEach(ele => {
@@ -57,13 +57,13 @@ function animations() {
 animations()
 let deviceWidth = window.innerWidth;
 let finalPath = `M ${deviceWidth * .1} 100 Q ${deviceWidth * 0.5} 100 ${deviceWidth * 0.9} 100`;
-function setSvgPath(){   
+function setSvgPath() {
     let deviceWidth = window.innerWidth;
     let finalPath = `M ${deviceWidth * .1} 100 Q ${deviceWidth * 0.5} 100 ${deviceWidth * 0.9} 100`
     document.querySelector('svg path').setAttribute('d', finalPath);
 }
 setSvgPath()
-window.addEventListener('resize', function(){
+window.addEventListener('resize', function () {
     setSvgPath()
 })
 document.querySelector('.svg-area').addEventListener('mousemove', (e) => {
@@ -111,11 +111,15 @@ window.addEventListener('contextmenu', (event) => {
     });
 });
 
-
-let navbar = document.querySelector('.navbar'), 
-toggleThumb = document.querySelector('#toggler');
-toggleThumb.addEventListener('click', function(){
+let navbar = document.querySelector('.navbar'),
+    toggleThumb = document.querySelector('#toggler');
+toggleThumb.addEventListener('click', function () {
     navbar.classList.toggle('visible');
 });
-
 document.querySelector('#main').style.overflow = "hidden";
+
+
+const text = document.querySelector('.text p');
+text.innerHTML = text.innerText.split('').map(
+    (char, i) => `<span style="transform: rotate(${i * 7}deg);"> ${char} </span>`
+).join('');
