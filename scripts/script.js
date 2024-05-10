@@ -1,6 +1,3 @@
-window.addEventListener('load', function () {
-    document.querySelector('#preLoader').style.display = "none";
-})
 document.querySelectorAll('.box').forEach(ele => {
     ele.style.background = ele.getAttribute('data-clr');
 });
@@ -108,13 +105,18 @@ window.addEventListener('contextmenu', (event) => {
 });
 
 let navbar = document.querySelector('.navbar'),
-    toggleThumb = document.querySelector('#toggler');
+    toggleThumb = document.querySelector('#toggler'),
+    isMobile = false;
 toggleThumb.addEventListener('click', function () {
     navbar.classList.toggle('visible');
+    isMobile = !isMobile;
+    if(isMobile){
+        navbar.style.background = "white";
+    }
+    else{
+        navbar.style.background = "transparent";
+    }
 });
-document.querySelector('#main').style.overflow = "hidden";
-
-
 const text = document.querySelector('.text p');
 text.innerHTML = text.innerText.split('').map(
     (char, i) => `<span style="transform: rotate(${i * 7}deg);"> ${char} </span>`

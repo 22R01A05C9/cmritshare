@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cmrit share</title>
+    <script>
+        window.addEventListener('load', function () {
+            document.querySelector('#preLoader').style.display = "none";
+        })
+    </script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/sharp-regular.css">
@@ -35,16 +40,16 @@
                                 Home
                             </a>
                         </li>
-                        <li class="nav-link"><a href="#">
-                            About
-                        </a></li>
+                        <li class="nav-link"><a href="#about">
+                                About
+                            </a></li>
                         <li class="nav-link">
                             <a href="#">
                                 Contact
                             </a>
                         </li>
                     </ul>
-                    
+
                 </div>
                 <div class="btns">
                     <a href="#login" class="btn-login">Login</a>
@@ -188,7 +193,7 @@
 
                 </div>
             </section>
-            <section class="about">
+            <section class="about" id="about">
                 <div class="top">
                     <div class="circle">
                         <div class="img">
@@ -200,7 +205,10 @@
                     </div>
                 </div>
                 <div class="bottom">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus minus accusamus repellendus corrupti ratione aperiam nihil repellat in consequuntur nemo facilis temporibus est unde, molestiae corporis earum magnam saepe quibusdam?
+                    <h2 class="title">About</h2>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus minus accusamus repellendus
+                    corrupti ratione aperiam nihil repellat in consequuntur nemo facilis temporibus est unde, molestiae
+                    corporis earum magnam saepe quibusdam?
                 </div>
             </section>
         </main>
