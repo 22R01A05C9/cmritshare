@@ -44,6 +44,9 @@
     background-color: #4834d4;
     color: #fff;
 }
+header{
+    width: 100%;
+}
 
 .navbar {
     display: flex;
@@ -318,6 +321,8 @@ svg {
     align-items: center;
     justify-content: center;
     justify-content: space-evenly;
+    border-bottom: 3px solid #4834d4;
+
 }
 
 .login .left {
@@ -387,7 +392,7 @@ svg {
 section.about{
     height: 100vh;
     width: 100%;
-    padding: 5rem 10rem;
+    padding: 5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -395,7 +400,7 @@ section.about{
 }
 .about .circle{
     color: #000;
-    --circle-size: 400px;
+    --circle-size: 350px;
     height: var(--circle-size);
     width: var(--circle-size);
     border-radius: var(--circle-size);
@@ -493,9 +498,14 @@ footer .nav-link {
         color: #000;
         cursor: pointer;
     }
-    
+    nav, header{
+        width: 100%;
+    }
     .navbar{
         position: fixed; 
+        width: 100%;
+        padding: 12px 0;
+        height: 80px;
     }
     nav .nav-links{
         position: fixed;
@@ -560,8 +570,12 @@ footer .nav-link {
     }
 
     .login {
-        width: 80vw;
+        background: url('../imgs/abs.png') no-repeat center center;
+        margin: 50px 0;
+        width: 100%;
+        color: #fff;
         border-top: 3px solid #4834d4;
+        border-bottom: 3px solid #4834d4;
         display: grid;
         place-content: center;
         & h2 {
@@ -575,7 +589,7 @@ footer .nav-link {
             font-size: 1.1rem;
         }
         .form-group{
-            width: 55vw;
+            width: 75vw;
         }
         & .icon {
             --fs-size: 20px;
@@ -607,10 +621,21 @@ footer .nav-link {
     section.about{
         padding: 0;
     }
+    .about .circle{
+        --circle-size: 250px;
+        height: var(--circle-size);
+        width: var(--circle-size);
+        border-radius: var(--circle-size);
+    }
     .about .bottom{
         margin-top: 100px;
         width: 90%;
         padding: 0;
+        text-align: justify;
+    }
+    .about .text p span{
+        font-size: 1rem;
+        margin-right: 10px;
     }
     footer{
         margin-top: 12px;
