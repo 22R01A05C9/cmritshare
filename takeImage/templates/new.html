@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Take picture</h1>
+    <video autoplay height="1080" width="1080"></video>
+    <canvas height="1080" width="1080" style="display: none;">
+    </canvas>
+    <button id="snap">
+        Capture
+    </button>
+    <img width="1080" height="1080" style="display: none;">
+    <button id="save">Save</button>
+    <button id="upload">Upload</button>
+
+    <script>
+        let video = document.querySelector('video'),
+        img = document.querySelector('img'),
+        canvas = document.querySelector('canvas'),
+        snap = document.getElementById('snap'),
+        save = document.getElementById('save'),
+        upload = document.getElementById('upload');
+
+        let imageList = []
+
+        let constraints = {
+            video : {
+                width: { ideal: 99999 },
+                height: { ideal: 99999 },
+                facingMode: 'user'
+            }
+        }
+
+        navigator.mediaDevices.getUserMedia(constraints).then( stream => {
+            video.srcObject = stream
+        }).catch( e => console.log("error : " + e))
+
+        snap.addEventListener('click', function(){
+            let ctx = canvas.getContext('2d')
+            ctx.drawImage(video, 0,0, canvas.width, canvas.height)
+            const dataURL = canvas.toDataURL('image/png');
+            img.src = dataURL;
+            img.style.display = 'block';
+        })
+        save.addEventListener('click', function(){
+            let imgObj = {
+                name : new Date().getTime(),
+                imgUrl : img.src
+            }
+            imageList.push(imgObj)
+            console.log(imageList)
+        })
+
+        upload.addEventListener('click', ()=> {
+            fetch('/upload', {
+                method: 'POST',
+                headers : {
+                    'Content-Type': 'application/json',
+                },
+                body : JSON.stringify( {imageList})
+            }).then( e=> console.log(e)).catch(err => console.log(er))
+        })
+    </script>
+</body>
+</html>

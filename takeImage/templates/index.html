@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Capture and Send Image</title>
+</head>
+<body>
+    <h1>Capture Image</h1>
+    <video id="video" width="1080" height="1920" autoplay></video>
+    <button id="snap">Capture</button>
+    <canvas id="canvas" width="1080" height="1920" style="display: none;"></canvas>
+    <br>
+    <img id="capturedImage" width="1080" height="1920" style="display: none;">
+    <br>
+    <button id="upload">Upload</button>
+
+    <script>
+        // Get access to the camera with higher resolution settings
+        const constraints = {
+            video: {
+                width: { ideal: 1080 },
+                height: { ideal: 1920 },
+                facingMode: 'environment' // Use back camera
+            }
+        };
+
+        const video = document.getElementById('video');
+
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((err) => {
+                console.error('Error accessing the camera: ', err);
+            });
+
+        // Capture the image
+        const canvas = document.getElementById('canvas');
+        const snap = document.getElementById('snap');
+        const upload = document.getElementById('upload');
+        const capturedImage = document.getElementById('capturedImage');
+
+        snap.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const dataURL = canvas.toDataURL('image/png');
+            capturedImage.src = dataURL;
+            capturedImage.style.display = 'block';
+        });
+
+        // Upload the image
+        upload.addEventListener('click', () => {
+            const dataURL = canvas.toDataURL('image/png');
+            fetch('/upload', {  // Update the URL to match your Flask server
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ image: dataURL })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
