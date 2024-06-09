@@ -33,4 +33,3 @@ def getUserDetails(userid):
     except Exception as e:
         return { 'status' : 'error', 'msg' : str(e)}
     
-

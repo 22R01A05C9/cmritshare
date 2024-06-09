@@ -107,7 +107,7 @@
                     </div>
                     <h4 class="name mt-3">{{ data['firstName'] }} {{ data['secondName'] }}</h4>
                     <p class="user-detail">
-                        <span class="rollNo">{{ data['rollNo'] }}</span> | 
+                        <span class="rollNo">{{ data['rollNo'] }} {{ data['username'] }}</span> | 
                         <span class="section">{{ data['section'] }}</span>
                     </p>
                 </div>
@@ -140,8 +140,14 @@
                                 <td colspan="3">{{ data['college'] }}</td>
                             </tr>
                             <tr>
-                                <td>Roll Number</td>
-                                <td colspan="3">{{ data['rollNo'] }}</td>
+                                <td>
+                                    {% if data['rollNO'] %}
+                                    Roll Number
+                                    {% else %}
+                                    Username 
+                                    {% endif %}
+                                </td>
+                                <td colspan="3">{{ data['rollNo'] }} {{ data['username'] }}</td>
                             </tr>
                             <tr>
                                 <td>Email Address</td>
