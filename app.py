@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for, jsonify
-from models.userLogin import getLoginUserid, getUserDetails
-
+import models.userLogin 
+import os
 app = Flask(__name__)
 app.secret_key = 'team1project'
     
@@ -20,36 +20,60 @@ def login():
         password = data.get('password')
         if not email or not password:
             return jsonify({'error': 'Email and password required'}), 400
-        response = getLoginUserid(email, password)
+        response = models.userLogin.getLoginUserid(email, password)
         if response:
-            session['userid'] = response
-            print(response)
-            return jsonify({'redirect': url_for('profile')})
+            session['userid'] = response['id']
+            session['role']= response['role']
+            if response['role']=='student':
+                return jsonify({'redirect': url_for('student')})
         else:
             return jsonify({'error': 'User is not registered'}), 401
     return jsonify({'error': 'Invalid request method'}), 405
 
 
-@app.route('/profile')
-def profile():
+@app.route('/student')
+def student():
     if 'userid' not in session or session['userid'] == '':
         return redirect(url_for('home'))
-    userid = session['userid']
-    data = getUserDetails(userid)
-    return render_template('profile.html', data=data)
+    userid=session['userid']
+    data=models.userLogin.getstudentdetails(userid)
+    return render_template('student_profile.html', data=data)
 
 
 @app.route('/logout')
 def logout():
-    session['userid'] = ''
+    session.pop('userid',None)
+    session.pop('role',None)
     return redirect(url_for('home'))
 
 
-@app.route('/assignments')
-def assignments():
+@app.route('/student/assignments')
+def stdassignments():
     if 'userid' not in session or session['userid'] == '':
         return redirect(url_for('home'))
-    return render_template('assignments.html')
+    userid=session['userid']
+    data=models.userLogin.detstdassignments(userid)
+    return render_template('stdassignments.html',data=data)
+
+@app.route('/upload/<assid>',methods=['POST','GET'])
+def upload(assid):
+    if not session['userid']:
+        return redirect(url_for('home'))
+    return render_template('uploadass.html',assid=assid)
+
+
+@app.route('/uploadpp',methods=['POST'])
+def uploadpp():
+    userid=session['userid']
+    if userid:   
+        file = request.files['pp']
+        file.save(f"{os.path.abspath(os.getcwd())}\\cmritShare\\static\\imgs\\{userid}.png")
+        res = models.userLogin.uploadpp(userid) 
+        if res==1:
+            return "ok"
+        else:
+            return "false"   
+    
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,host='0.0.0.0')

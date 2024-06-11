@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 client = MongoClient('mongodb://localhost:27017/')
-database = client.collegeProject 
+database = client.maindb 
 users = database.users
 
 
@@ -11,25 +11,28 @@ def createUser( userData : dict):
     return response 
 
 def getLoginUserid(email, password):
-    try:
-        response = users.find_one({
-            '$and' : [
-                {'email'    : email },
-                {'password' : password}
-            ]
-        })
-        if(response):
-            return str(response['_id'])
-        return ''
-    except Exception as e:
-        return (e)
+    response = users.find_one({'email': email ,'pass' : password})
+    return response
 
 
-def getUserDetails(userid):
-    try:
-        userObjectID = ObjectId(userid)
-        user = users.find_one( {'_id' : userObjectID})
-        return user
-    except Exception as e:
-        return { 'status' : 'error', 'msg' : str(e)}
+def getstudentdetails(userid):
+    students = database.students
+    data = students.find_one( {'rollno' : userid})
+    return data
+
+def detstdassignments(userid):
+    students=database.students
+    allass=students.find_one({'rollno':userid})['assignments']
+    data=[]
+    assignments = database.assignments
+    for i in allass:
+        res = assignments.find_one({'assignmentid':int(i)})
+        di = {'teachername':res['teachername'], 'subject':res['subject'], 'assid':res['assignmentid'], 'date':res['date'],'submitted':allass[i]}
+        data.append(di)
+    return data
+
+def uploadpp(userid):
+    students = database.students
+    res = students.update_one({'rollno':str(userid)},{"$set":{"image":f"/imgs/{userid}.png"}})
+    return res.matched_count
     
