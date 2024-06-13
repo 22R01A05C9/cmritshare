@@ -41,6 +41,10 @@
             color: #F19C4F;
         }
 
+        .expired{
+            color:rgba(255, 0, 0, 75%);
+            background-color: #fbdcdcfc;
+        }
         .status {
             padding: 5px 10px;
             display: flex;
@@ -60,7 +64,7 @@
         }
 
         .btn-sm {
-            min-width: 80px;
+            min-width: 100px;
         }
 
         @media (max-width: 900px) {
@@ -101,13 +105,14 @@
             <table class="table overflow-hidden table-hover table-dark">
                 <thead>
                     <tr>
-                        <th scope="col" colspan="6"> <i class="fa-regular fa-file-lines ms-2 me-3"></i>
+                        <th scope="col" colspan="7"> <i class="fa-regular fa-file-lines ms-2 me-3"></i>
                             <span>Assignments</span>
                         </th>
 
                     </tr>
                     <tr class="table-active">
                         <th scope="col">Asignment ID</th>
+                        <th scope="col">Asignment Name</th>
                         <th scope="col">Subject</th>
                         <th scope="col">Teacher</th>
                         <th scope="col">Status</th>
@@ -119,27 +124,36 @@
                     {%for i in data%}
                     <tr>
                         <td>{{i['assid']}}</td>
+                        <td>{{i['assname']}}</td>
                         <th scope="row">{{i['subject']}}</th>
                         <td>{{i['teachername']}}</td>
                         <td>
-                            {%if i['submitted']%}
+                            {%if i['status']==1%}
                             <div class="status-outside">
                                 <span class="status completed"> <i class="fa-solid fa-circle"></i> Submitted </span>
                             </div>
-                            {%else%}
+                            {%elif i['status'] == 0%}
                             <div class="status-outside">
                                 <span class="status pending"> <i class="fa-solid fa-circle"></i> Pending </span>
+                            </div>
+                            {%elif i['status'] == 2%}
+                            <div class="status-outside">
+                                <span class="status expired"> <i class="fa-solid fa-circle"></i> Expired </span>
                             </div>
                             {%endif%}
                         </td>
                         <td>{{i['date']}}</td>
                         <td>
-                            {%if i['submitted']%}
-                            <a href="#" class="btn btn-info text-light btn-sm disabled"> Submitted
+                            {%if i['status']==1%}
+                            <a href="#" class="btn btn-info text-light btn-sm disabled"> Finished
                                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
                             </a>
-                            {%else%}
+                            {%elif i['status']==0%}
                             <a href="/upload/{{i['assid']}}" class="btn btn-info text-light btn-sm "> Submit
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                            </a>
+                            {%elif i['status']==2%}
+                            <a href="#" class="btn btn-info text-light btn-sm disabled"> Expired
                                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
                             </a>
                             {%endif%}
