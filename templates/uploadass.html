@@ -39,25 +39,60 @@
             display: inline-block;
             margin-right: 5px;
         }
-        #imgWrapper{
+
+        #imgWrapper {
             max-width: calc(100% - 10px);
             max-height: 400px;
             padding: 15px;
         }
-        #imgWrapper #capturedImg{
+
+        #imgWrapper #capturedImg {
             object-fit: conver;
             height: 300px;
             width: 100%;
 
         }
+        @media (min-width: 900px){
+            #block{
+                width: 100%;
+                height: 100vh;
+                position: fixed;
+                z-index: 999;
+                background-color: #1b1b1b;
+            }
+        }
     </style>
 </head>
 
-<body>
-    <section class="p-1">
+<body class="bg-dark">
+    <div id="block" class="d-flex align-items-center justify-content-center">
+        <div class="alert alert-danger">
+            This page only supports on mobile
+        </div>
+    </div>
+
+    <section>
+        <div class="container-fluid table-responsive bg-dark text-white p-2" style="width: 350px;">
+            <table class="table table-dark">
+                <tr>
+                    <td>Subject : </td>
+                    <td>{{data['subject']}}</td>
+                </tr>
+                <tr>
+                    <td>Assignment ID: </td>
+                    <td>{{data['assignmentid']}}</td>
+                </tr>
+                <tr>
+                    <td>Description </td>
+                    <td>{{data['description']}}</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+    <section class="py-3 px-2">
 
         <div class="container-fluid">
-            <div class="card">
+            <div class="card bg-dark border">
                 <div class="card-head bg-primary text-white">
                     <h4 class="card-title text-center py-3 text-capitalize">
                         capture image
@@ -80,8 +115,8 @@
                     </div>
                     <div id="imageGallery" class="px-3 py-2">
                     </div>
-                    <div class="container d-flex py-2 justify-content-end">
-                        <button id="upload" class="btn float-right btn-success mb-3 me-5">Upload Documents</button>
+                    <div class="py-2">
+                        <button id="upload" class="btn btn-success mb-3">Upload Documents</button>
                     </div>
                 </div>
 
@@ -119,6 +154,7 @@
             const dataURL = canvas.toDataURL('image/png');
             img.src = dataURL;
             img.style.display = 'block';
+            document.getElementById("capturedImg").style = "display: block";
         })
         save.addEventListener('click', function () {
             let imgObj = {
@@ -130,17 +166,22 @@
             childImg.src = img.src;
             imageGallery.style.display = 'block';
             imageGallery.appendChild(childImg);
+            console.log(imageList);
+            document.getElementById("capturedImg").style = "display: none";
         })
-
+        let assid = "{{data['assignmentid']}}"
         upload.addEventListener('click', () => {
-            let assid='{{assid}}';
             fetch('/uploadass', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ imageList, "assid":assid })
-            }).then(e => console.log(e)).catch(err => console.log(er))
+                body: JSON.stringify({ imageList, assid: assid })
+            }).then(response => response.json())
+            .then(data => {
+                    alert(data['status']);
+                    window.location.href=`/student/assignments`;
+                }) .catch(err => console.log(er))
         })
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

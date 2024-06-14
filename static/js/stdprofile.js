@@ -6,7 +6,7 @@ function uploadphoto(){
     xhr = new XMLHttpRequest();
     form = document.getElementById("cpp");
     formdata = new FormData(form);
-    xhr.open("POST","/uploadpp");
+    xhr.open("POST","/uploadspp");
     xhr.send(formdata);
     xhr.onload = () =>{
         res = xhr.response;

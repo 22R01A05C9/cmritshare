@@ -78,7 +78,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/student">Dashboard</a>
+            <a class="navbar-brand" href="/faculty">Dashboard</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -87,7 +87,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('student')}}">Home</a>
+                        <a class="nav-link" href="{{url_for('faculty')}}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Assignments</a>
@@ -105,7 +105,7 @@
             <table class="table overflow-hidden table-hover table-dark">
                 <thead>
                     <tr>
-                        <th scope="col" colspan="8"> <i class="fa-regular fa-file-lines ms-2 me-3"></i>
+                        <th scope="col" colspan="4"> <i class="fa-regular fa-file-lines ms-2 me-3"></i>
                             <span>Assignments</span>
                         </th>
 
@@ -113,12 +113,8 @@
                     <tr class="table-active">
                         <th scope="col">Asignment ID</th>
                         <th scope="col">Asignment Name</th>
-                        <th scope="col">Subject</th>
-                        <th scope="col">Teacher</th>
-                        <th scope="col">Status</th>
                         <th scope="col">Submission Date</th>
-                        <th scope="col">Marks</th>
-                        <th scope="col">Upload</th>
+                        <th scope="col">View</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -126,39 +122,11 @@
                     <tr>
                         <td>{{i['assid']}}</td>
                         <td>{{i['assname']}}</td>
-                        <th scope="row">{{i['subject']}}</th>
-                        <td>{{i['teachername']}}</td>
-                        <td>
-                            {%if i['status']==1%}
-                            <div class="status-outside">
-                                <span class="status completed"> <i class="fa-solid fa-circle"></i> Submitted </span>
-                            </div>
-                            {%elif i['status'] == 0%}
-                            <div class="status-outside">
-                                <span class="status pending"> <i class="fa-solid fa-circle"></i> Pending </span>
-                            </div>
-                            {%elif i['status'] == 2%}
-                            <div class="status-outside">
-                                <span class="status expired"> <i class="fa-solid fa-circle"></i> Expired </span>
-                            </div>
-                            {%endif%}
-                        </td>
                         <td>{{i['date']}}</td>
-                        <td>{{i['marks']}}</td>
                         <td>
-                            {%if i['status']==1%}
-                            <a href="#" class="btn btn-info text-light btn-sm disabled"> Finished
+                            <a href="{{i['view']}}" class="btn btn-info text-light btn-sm"> View
                                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
                             </a>
-                            {%elif i['status']==0%}
-                            <a href="/upload/{{i['assid']}}" class="btn btn-info text-light btn-sm "> Submit
-                                <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                            </a>
-                            {%elif i['status']==2%}
-                            <a href="#" class="btn btn-info text-light btn-sm disabled"> Expired
-                                <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                            </a>
-                            {%endif%}
                         </td>
                     </tr>
                     {%endfor%}
