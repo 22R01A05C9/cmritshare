@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Upload assignments</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        #videoWrapper {
+            width: calc(100% - 20px);
+            height: 400px !important;
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        #videoWrapper video {
+            width: 100%;
+            height: 100%;
+        }
+
+        #imageGallery {
+            width: 90%;
+            height: 100px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            display: none;
+        }
+
+        #imageGallery img {
+            width: 70px;
+            height: 70px;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        #imgWrapper {
+            max-width: calc(100% - 10px);
+            max-height: 400px;
+            padding: 15px;
+        }
+
+        #imgWrapper #capturedImg {
+            object-fit: conver;
+            height: 300px;
+            width: 100%;
+
+        }
+        @media (min-width: 900px){
+            #block{
+                width: 100%;
+                height: 100vh;
+                position: fixed;
+                z-index: 999;
+                background-color: #1b1b1b;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-dark">
+    <div id="block" class="d-flex align-items-center justify-content-center">
+        <div class="alert alert-danger">
+            This page only supports on mobile
+        </div>
+    </div>
+
+    <section>
+        <div class="container-fluid table-responsive bg-dark text-white p-2" style="width: 350px;">
+            <table class="table table-dark">
+                <tr>
+                    <td>Subject : </td>
+                    <td>{{data['subject']}}</td>
+                </tr>
+                <tr>
+                    <td>Assignment ID: </td>
+                    <td>{{data['assignmentid']}}</td>
+                </tr>
+                <tr>
+                    <td>Description </td>
+                    <td>{{data['description']}}</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+    <section class="py-3 px-2">
+
+        <div class="container-fluid">
+            <div class="card bg-dark border">
+                <div class="card-head bg-primary text-white">
+                    <h4 class="card-title text-center py-3 text-capitalize">
+                        capture image
+                    </h4>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-start flex-column">
+                    <div id="videoWrapper">
+                        <video autoplay id="video-wrapper"></video>
+                    </div>
+                    <canvas height="1080" width="1080" style="display: none;">
+                    </canvas>
+                    <div id="imgWrapper">
+                        <img style="display: none;" id="capturedImg">
+                    </div>
+                    <div class="py-2">
+                        <button id="snap" class="btn btn-primary ">
+                            Capture
+                        </button>
+                        <button id="save" class="btn btn-warning text-white">Save image</button>
+                    </div>
+                    <div id="imageGallery" class="px-3 py-2">
+                    </div>
+                    <div class="py-2">
+                        <button id="upload" class="btn btn-success mb-3">Upload Documents</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <script>
+        let video = document.querySelector('video'),
+            img = document.querySelector('img'),
+            canvas = document.querySelector('canvas'),
+            snap = document.getElementById('snap'),
+            save = document.getElementById('save'),
+            imageGallery = document.getElementById("imageGallery"),
+            upload = document.getElementById('upload');
+
+        let imageList = []
+
+        let constraints = {
+            video: {
+                width: { ideal: 1080 },
+                height: { ideal: 1080 },
+                facingMode: { exact: "environment" }
+            }
+        }
+
+        navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+            video.srcObject = stream
+        }).catch(e => console.log("error : " + e))
+
+        snap.addEventListener('click', function () {
+            let ctx = canvas.getContext('2d')
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+            const dataURL = canvas.toDataURL('image/png');
+            img.src = dataURL;
+            img.style.display = 'block';
+            document.getElementById("capturedImg").style = "display: block";
+        })
+        save.addEventListener('click', function () {
+            let imgObj = {
+                name: new Date().getTime(),
+                imgUrl: img.src
+            }
+            imageList.push(imgObj)
+            const childImg = document.createElement('img')
+            childImg.src = img.src;
+            imageGallery.style.display = 'block';
+            imageGallery.appendChild(childImg);
+            console.log(imageList);
+            document.getElementById("capturedImg").style = "display: none";
+        })
+        let assid = "{{data['assignmentid']}}"
+        upload.addEventListener('click', () => {
+            fetch('/uploadass', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ imageList, assid: assid })
+            }).then(response => response.json())
+            .then(data => {
+                    alert(data['status']);
+                    window.location.href=`/student/assignments`;
+                }) .catch(err => console.log(er))
+        })
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
